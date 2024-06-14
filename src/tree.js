@@ -1,5 +1,6 @@
 export default class Tree {
-  constructor() {
+  constructor(arr) {
+    this.arr = arr;
     this.root = null;
   }
 }
