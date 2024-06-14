@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
-import Tree from "./tree";
+import Tree, { sort, merge } from "./tree";
 
 class Node {
   constructor(data) {
@@ -9,6 +9,5 @@ class Node {
   }
 }
 
-let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-
-arr = arr.sort();
+const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+console.log(sort(arr));
