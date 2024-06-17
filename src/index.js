@@ -103,7 +103,7 @@ function startIt() {
 
   root.root = binaryTree(newArr, start, end);
   insert(127, root.root);
-  deleteItem(8, root.root);
+  deleteItem(6345, root.root);
   prettyPrint(root.root);
 }
 
