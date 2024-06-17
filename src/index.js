@@ -35,6 +35,23 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
+const insert = (value, root) => {
+  if (root === null) {
+    // eslint-disable-next-line no-param-reassign
+    root = new Node(value);
+    return root;
+  }
+  if (value < root.data) {
+    // eslint-disable-next-line no-param-reassign
+    root.left = insert(value, root.left);
+  } else if (value > root.data) {
+    // eslint-disable-next-line no-param-reassign
+    root.right = insert(value, root.right);
+  }
+
+  return root;
+};
+
 function startIt() {
   const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]; // THIS IS NOT THE ARRAY THAT GETS PRINTED OUT
 
@@ -46,6 +63,7 @@ function startIt() {
   const end = newArr.length - 1;
 
   root.root = binaryTree(newArr, start, end);
+  insert(2233, root.root);
   prettyPrint(root.root);
 }
 
