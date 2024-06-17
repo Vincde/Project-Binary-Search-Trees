@@ -52,6 +52,45 @@ const insert = (value, root) => {
   return root;
 };
 
+const minValue = (node) => {
+  let minv = node.data;
+  while (node.left !== null) {
+    minv = node.left.data;
+    // eslint-disable-next-line no-param-reassign
+    node = node.left;
+  }
+  return minv;
+};
+
+const deleteItem = (value, root) => {
+  if (root === null) {
+    return root;
+  }
+
+  if (value < root.data) {
+    // eslint-disable-next-line no-param-reassign
+    root.left = deleteItem(value, root.left);
+  } else if (value > root.data) {
+    // eslint-disable-next-line no-param-reassign
+    root.right = deleteItem(value, root.right);
+  } else {
+    if (root.left === null) {
+      return root.right;
+    }
+    if (root.right === null) {
+      return root.left;
+    }
+
+    // eslint-disable-next-line no-param-reassign
+    root.data = minValue(root.right);
+
+    // eslint-disable-next-line no-param-reassign
+    root.right = deleteItem(root.data, root.right);
+  }
+
+  return root;
+};
+
 function startIt() {
   const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]; // THIS IS NOT THE ARRAY THAT GETS PRINTED OUT
 
@@ -63,7 +102,8 @@ function startIt() {
   const end = newArr.length - 1;
 
   root.root = binaryTree(newArr, start, end);
-  insert(2233, root.root);
+  insert(127, root.root);
+  deleteItem(8, root.root);
   prettyPrint(root.root);
 }
 
