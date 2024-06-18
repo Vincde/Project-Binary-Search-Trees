@@ -91,6 +91,44 @@ const deleteItem = (value, root) => {
   return root;
 };
 
+const find = (value, root) => {
+  let res;
+  if (root === null) {
+    return "no data found";
+  }
+  if (root.data === value) {
+    return root.data;
+  }
+
+  if (value < root.data) {
+    res = find(value, root.left);
+  } else if (value > root.data) {
+    res = find(value, root.right);
+  }
+
+  return res;
+};
+
+const levelOrder = (callback, root) => {
+  const queue = [];
+  let tmp = root;
+
+  while (tmp !== null) {
+    callback(tmp);
+    if (tmp.left !== null) {
+      queue.push(tmp.left);
+    }
+    if (tmp.right !== null) {
+      queue.push(tmp.right);
+    }
+    tmp = queue.shift();
+  }
+};
+
+function hello(root) {
+  console.log(root.data);
+}
+
 function startIt() {
   const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]; // THIS IS NOT THE ARRAY THAT GETS PRINTED OUT
 
@@ -103,7 +141,7 @@ function startIt() {
 
   root.root = binaryTree(newArr, start, end);
   insert(127, root.root);
-  deleteItem(6345, root.root);
+  levelOrder(hello, root.root);
   prettyPrint(root.root);
 }
 
