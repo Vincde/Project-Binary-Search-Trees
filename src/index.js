@@ -109,12 +109,19 @@ const find = (value, root) => {
   return res;
 };
 
-const levelOrder = (callback, root) => {
+// eslint-disable-next-line default-param-last, consistent-return
+const levelOrder = (root, callback = null) => {
+  const res = [];
   const queue = [];
   let tmp = root;
 
-  while (tmp !== null) {
-    callback(tmp);
+  while (tmp !== undefined) {
+    if (callback === null) {
+      res.push(tmp.data);
+    } else {
+      callback(tmp);
+    }
+
     if (tmp.left !== null) {
       queue.push(tmp.left);
     }
@@ -122,6 +129,10 @@ const levelOrder = (callback, root) => {
       queue.push(tmp.right);
     }
     tmp = queue.shift();
+  }
+
+  if (callback === null) {
+    return res;
   }
 };
 
@@ -141,7 +152,7 @@ function startIt() {
 
   root.root = binaryTree(newArr, start, end);
   insert(127, root.root);
-  levelOrder(hello, root.root);
+  console.log(levelOrder(root.root));
   prettyPrint(root.root);
 }
 
