@@ -227,7 +227,7 @@ const postOrder = (root, queue = [], callback = null) => {
   return 0;
 };
 
-const height = (node) => {};
+const height = (root, node) => {};
 
 function hello(root) {
   console.log(root.data);
