@@ -152,6 +152,31 @@ const levelOrderRecursive = (root, queue = [], callback = null) => {
   levelOrderRecursive(queue.shift(), queue, callback);
 };
 
+const inOrder = (root, queue = [], callback = null) => {
+  if (root === undefined) return;
+
+  if (callback === null) {
+    queue.push(root.data);
+  }
+
+  if (root.left) {
+    inOrder(root.left, queue, callback);
+  }
+
+  if (callback) callback(root);
+
+  if (root.right) {
+    inOrder(root.right, queue, callback);
+  }
+
+  if (callback === null) {
+    // eslint-disable-next-line consistent-return
+    return queue;
+  }
+  // eslint-disable-next-line consistent-return
+  return 0;
+};
+
 function hello(root) {
   console.log(root.data);
 }
@@ -168,8 +193,9 @@ function startIt() {
 
   root.root = binaryTree(newArr, start, end);
   insert(127, root.root);
+
   const queue = [];
-  levelOrderRecursive(root.root, queue, hello);
+  inOrder(root.root, queue, hello);
   prettyPrint(root.root);
 }
 
