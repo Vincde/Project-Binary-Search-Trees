@@ -177,6 +177,56 @@ const inOrder = (root, queue = [], callback = null) => {
   return 0;
 };
 
+const preOrder = (root, queue = [], callback = null) => {
+  if (root === undefined) return;
+
+  if (callback === null) {
+    queue.push(root.data);
+  }
+
+  if (callback) callback(root);
+
+  if (root.left) {
+    preOrder(root.left, queue, callback);
+  }
+
+  if (root.right) {
+    preOrder(root.right, queue, callback);
+  }
+
+  if (callback === null) {
+    // eslint-disable-next-line consistent-return
+    return queue;
+  }
+  // eslint-disable-next-line consistent-return
+  return 0;
+};
+
+const postOrder = (root, queue = [], callback = null) => {
+  if (root === undefined) return;
+
+  if (callback === null) {
+    queue.push(root.data);
+  }
+
+  if (root.left) {
+    postOrder(root.left, queue, callback);
+  }
+
+  if (root.right) {
+    postOrder(root.right, queue, callback);
+  }
+
+  if (callback) callback(root);
+
+  if (callback === null) {
+    // eslint-disable-next-line consistent-return
+    return queue;
+  }
+  // eslint-disable-next-line consistent-return
+  return 0;
+};
+
 function hello(root) {
   console.log(root.data);
 }
@@ -195,7 +245,7 @@ function startIt() {
   insert(127, root.root);
 
   const queue = [];
-  inOrder(root.root, queue, hello);
+  postOrder(root.root, queue, hello);
   prettyPrint(root.root);
 }
 
