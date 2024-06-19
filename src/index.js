@@ -264,41 +264,28 @@ function takeHeight(root, x) {
 
 const depth = (root, x) => {
   let newDepth = 0;
-  if (root === null || root === undefined) {
-    return newDepth;
+  if (root === undefined) return newDepth;
+
+  if (root.left) {
+    newDepth += 1;
+    newDepth = depth(root.left, x);
   }
 
-  newDepth += 1;
+  if (root.data !== x) {
+    newDepth -= 1;
+  }
 
   if (root.data === x) {
     return newDepth;
   }
 
-  newDepth = depth(root.left, x);
-  newDepth = depth(root.right, x);
+  if (root.right) {
+    newDepth += 1;
+    newDepth = depth(root.right, x);
+  }
 
-  newDepth -= 1;
-
-  // eslint-disable-next-line consistent-return
   return newDepth;
 };
-
-/* function takeDepth(root, x) {
-  if (root === null || root === undefined) return;
-  let newDepth;
-
-  newDepth = takeDepth(root.left, x);
-  newDepth = takeDepth(root.right, x);
-
-  if (root.data === x) {
-    newDepth = Depth(root);
-    // eslint-disable-next-line consistent-return
-    return newDepth;
-  }
-
-  // eslint-disable-next-line consistent-return
-  return newDepth;
-} */
 
 function startIt() {
   const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]; // THIS IS NOT THE ARRAY THAT GETS PRINTED OUT
@@ -314,7 +301,8 @@ function startIt() {
   insert(127, root.root);
 
   const queue = [];
-  console.log(depth(root.root, 5));
+
+  console.log(depth(root.root, 1));
   prettyPrint(root.root);
 }
 
