@@ -268,17 +268,17 @@ const depth = (root, x) => {
     return newDepth;
   }
 
+  newDepth += 1;
+
   if (root.data === x) {
-    newDepth = 1;
     return newDepth;
   }
 
   newDepth = depth(root.left, x);
   newDepth = depth(root.right, x);
 
-  if (root.right && root.left) newDepth -= 1;
+  newDepth -= 1;
 
-  newDepth += 1;
   // eslint-disable-next-line consistent-return
   return newDepth;
 };
