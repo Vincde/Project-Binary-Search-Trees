@@ -227,11 +227,78 @@ const postOrder = (root, queue = [], callback = null) => {
   return 0;
 };
 
-const height = (root, node) => {};
+const height = (root) => {
+  // Base Case
+  if (root == null) {
+    return -1;
+  }
 
-function hello(root) {
-  console.log(root.data);
+  // Store the maximum height of
+  // the left and right subtree
+  const leftHeight = height(root.left);
+
+  const rightHeight = height(root.right);
+
+  // Update height of the current node
+  const ans = Math.max(leftHeight, rightHeight) + 1;
+
+  return ans;
+};
+
+function takeHeight(root, x) {
+  if (root === null || root === undefined) return;
+  let newHeight;
+
+  newHeight = takeHeight(root.left, x);
+  newHeight = takeHeight(root.right, x);
+
+  if (root.data === x) {
+    newHeight = height(root);
+    // eslint-disable-next-line consistent-return
+    return newHeight;
+  }
+
+  // eslint-disable-next-line consistent-return
+  return newHeight;
 }
+
+const depth = (root, x) => {
+  let newDepth = 0;
+  if (root === null || root === undefined) {
+    return newDepth;
+  }
+
+  if (root.data === x) {
+    newDepth = 1;
+    return newDepth;
+  }
+
+  newDepth = depth(root.left, x);
+  newDepth = depth(root.right, x);
+
+  if (root.right && root.left) newDepth -= 1;
+
+  newDepth += 1;
+  // eslint-disable-next-line consistent-return
+  return newDepth;
+};
+
+/* function takeDepth(root, x) {
+  if (root === null || root === undefined) return;
+  let newDepth;
+
+  newDepth = takeDepth(root.left, x);
+  newDepth = takeDepth(root.right, x);
+
+  if (root.data === x) {
+    newDepth = Depth(root);
+    // eslint-disable-next-line consistent-return
+    return newDepth;
+  }
+
+  // eslint-disable-next-line consistent-return
+  return newDepth;
+} */
 
 function startIt() {
   const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]; // THIS IS NOT THE ARRAY THAT GETS PRINTED OUT
@@ -247,7 +314,7 @@ function startIt() {
   insert(127, root.root);
 
   const queue = [];
-  postOrder(root.root, queue, hello);
+  console.log(depth(root.root, 5));
   prettyPrint(root.root);
 }
 
