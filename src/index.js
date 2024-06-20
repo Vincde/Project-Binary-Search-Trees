@@ -136,6 +136,10 @@ const levelOrder = (root, callback = null) => {
   }
 };
 
+function printAll(root) {
+  console.log(root.data);
+}
+
 const levelOrderRecursive = (root, queue = [], callback = null) => {
   if (root === undefined) return;
 
@@ -263,47 +267,123 @@ function takeHeight(root, x) {
 }
 
 const depth = (root, x) => {
-  let newDepth = 0;
-  if (root === undefined) return newDepth;
+  // Base case
+  if (root === null || root === undefined) return -1;
 
-  if (root.left) {
-    newDepth += 1;
-    newDepth = depth(root.left, x);
-  }
+  // Initialize distance as -1
+  let dist = -1;
 
-  if (root.data !== x) {
-    newDepth -= 1;
-  }
+  // Check if x is current node=
+  if (
+    root.data === x ||
+    // eslint-disable-next-line no-cond-assign
+    (dist = depth(root.left, x)) >= 0 ||
+    // eslint-disable-next-line no-cond-assign
+    (dist = depth(root.right, x)) >= 0
+  )
+    // Return depth of the node
+    return dist + 1;
 
-  if (root.data === x) {
-    return newDepth;
-  }
-
-  if (root.right) {
-    newDepth += 1;
-    newDepth = depth(root.right, x);
-  }
-
-  return newDepth;
+  return dist;
 };
 
-function startIt() {
-  const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]; // THIS IS NOT THE ARRAY THAT GETS PRINTED OUT
+function heightBalance(root) {
+  if (root === null) {
+    return 0;
+  }
 
-  const newArr = sort(arr);
+  return Math.max(height(root.left), height(root.right)) + 1;
+}
 
-  const root = new Tree(newArr);
+const isBalanced = (root) => {
+  if (root === null) {
+    return true;
+  }
+
+  const lh = heightBalance(root.left);
+  const rh = heightBalance(root.right);
+
+  if (
+    Math.abs(lh - rh) <= 1 &&
+    isBalanced(root.left) === true &&
+    isBalanced(root.right) === true
+  )
+    return true;
+
+  return false;
+};
+
+const rebalanceArray = (root) => {
+  let newArr = [];
+  if (root === null) return newArr;
+
+  // eslint-disable-next-line no-param-reassign
+  newArr = rebalanceArray(root.left);
+  // eslint-disable-next-line no-param-reassign
+  newArr = rebalanceArray(root.right);
+
+  newArr.push(root.data);
+
+  return newArr;
+};
+
+const rebalance = (root, newArr) => {
+  // eslint-disable-next-line no-param-reassign
+  newArr = sort(newArr);
 
   const start = 0;
   const end = newArr.length - 1;
 
-  root.root = binaryTree(newArr, start, end);
-  insert(127, root.root);
+  const newRoot = binaryTree(newArr, start, end);
 
+  return newRoot;
+};
+
+function startIt() {
   const queue = [];
+  const arr = Array.from(
+    {
+      length: 100,
+    },
+    () => Math.floor(Math.random() * 100)
+  );
 
-  console.log(depth(root.root, 1));
-  prettyPrint(root.root);
+  const sortedArr = sort(arr);
+
+  const root = new Tree(sortedArr);
+
+  const start = 0;
+  const end = sortedArr.length - 1;
+
+  root.root = binaryTree(sortedArr, start, end);
+
+  console.log(isBalanced(root.root));
+
+  /* levelOrderRecursive(root.root, queue, printAll);
+  queue = [];
+  preOrder(root.root, queue, printAll);
+  queue = [];
+  inOrder(root.root, queue, printAll);
+  queue = [];
+  postOrder(root.root, queue, printAll);
+  queue = []; */
+  insert(234, root.root);
+  insert(2434, root.root);
+  insert(25674, root.root);
+  insert(22324, root.root);
+  insert(89894, root.root);
+  insert(21224, root.root);
+  insert(2554, root.root);
+  insert(122344, root.root);
+  insert(2789994, root.root);
+  insert(22222, root.root);
+
+  console.log(isBalanced(root.root));
+
+  let rebalanceVar = [];
+  rebalanceVar = rebalanceArray(root.root);
+  root.root = rebalance(root.root, rebalanceVar);
+  console.log(isBalanced(root.root));
 }
 
 startIt();
